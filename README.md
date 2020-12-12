@@ -26,6 +26,19 @@ Executed in    5.62 millis    fish           external
    sys time    2.55 millis    1.00 millis    1.55 millis
 ```
 
+## Usage
+
+Just run `codegen-cache yourcommand` to get the output of a command cached.
+
+You can get help with `codegen-cache -h`.
+
+Note that currently there is no option to track changes in the environment
+variables or configuration files for the command being run. If you change any
+of those and the change is not reflected in the cache, you can forcibly reset
+the cache entry: `codegen-cache -e yourcommand`.
+
+## Installation
+
 You can install it with your favourite package manager by pointing to this
 repository:
 
