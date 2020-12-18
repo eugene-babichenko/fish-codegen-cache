@@ -34,8 +34,8 @@ You can get help with `codegen-cache -h`.
 
 Note that currently there is no option to track changes in the environment
 variables or configuration files for the command being run. If you change any
-of those and the change is not reflected in the cache, you can forcibly reset
-the cache entry: `codegen-cache -e yourcommand`.
+of those and the change is not reflected in the cache, you can forcibly remove
+your cache entry. Refer to help for the details.
 
 ## Installation
 
