@@ -1,5 +1,5 @@
 function codegen-cache --description "Cache the output of a command until the executable is updated"
-	if [ "$argv[1]" = "-h" ]
+	if [ "$argv[1]" = "-h" ]; or ! set -q argv[1]
 		echo "codegen-cache"
 		echo "Cache the output of a command until the executable is updated"
 		echo ""
@@ -46,17 +46,27 @@ function codegen-cache --description "Cache the output of a command until the ex
 
 	# Only if the command was changed or the executable was updated generate the code once again
 	set exec_last_updated (stat -c %Y (which $argv[1]))
-	set command_data $$key
+	if test $result -ne
+		echo "Could not check the provided executable. Does it exist?"
+		return 
+	end
+
 	if set -q $key
+		set command_data $$key
 		if test $exec_last_updated -le $command_data[2]
 			echo -e $command_data[3]
-			return
+			return 1
 		end
 	end
 
 	# The output of a command is read as a list, so we need to join it back.
 	set output (string join '\n' ($argv[1..-1]))
+	if test $result -ne 0
+		echo "Could not execute the provided command"
+		return 1
+	end
+
 	set -U $key "$argv[1..-1]" $exec_last_updated $output
-        set -Ua __fish_codegen_cache_entries $hash
+	set -Ua __fish_codegen_cache_entries $hash
 	echo -e $output
 end
