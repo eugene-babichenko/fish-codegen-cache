@@ -1,7 +1,7 @@
 # `codegen-cache`
 
 It is a simple `fish` function to cache the output of commands until an
-executable is update. Then the code is re-generated and cached again.
+executable is updated. Then the code is re-generated and cached again.
 
 Its inital purpose is to make faster `config.fish` files. This is the
 comparison for some vere slow command generating an alias:
