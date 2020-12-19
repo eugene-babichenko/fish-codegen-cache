@@ -1,7 +1,7 @@
 function codegen-cache --description "Cache the output of a command until the executable is updated"
 	if [ "$argv[1]" = "-h" ]; or ! set -q argv[1]
 		echo "codegen-cache"
-		echo "Cache the output of a command until the executable is updated"
+		echo "Cache the output of a command until the executable is updated."
 		echo ""
 		echo "USAGE:"
 		echo -e "\tcodegen-cache [FLAGS] [COMMAND]"
@@ -28,11 +28,11 @@ function codegen-cache --description "Cache the output of a command until the ex
 
 	if [ "$argv[1]" = "-e" ]
 		if ! set -q $argv[2]
-			echo "You must provide a number of an entry to remove!"
+			echo "codegen-cache: you must provide a number of an entry to remove!" 1>&2
 			return 1
 		end
 		if ! set -q __fish_codegen_cache_entries[$argv[2]]
-			echo "Cache entry not found!"
+			echo "codegen-cache: entry not found!" 1>&2
 			return 1
 		end
 		set -e $__fish_codegen_cache_entries[$argv[2]]
@@ -46,8 +46,8 @@ function codegen-cache --description "Cache the output of a command until the ex
 
 	# Only if the command was changed or the executable was updated generate the code once again
 	set exec_last_updated (stat -c %Y (which $argv[1]))
-	if test $result -ne
-		echo "Could not check the provided executable. Does it exist?"
+	if test $status -ne 0
+		echo "codegen-cache: could not check the provided executable. Does it exist?" 1>&2
 		return 
 	end
 
@@ -61,8 +61,8 @@ function codegen-cache --description "Cache the output of a command until the ex
 
 	# The output of a command is read as a list, so we need to join it back.
 	set output (string join '\n' ($argv[1..-1]))
-	if test $result -ne 0
-		echo "Could not execute the provided command"
+	if test $status -ne 0
+		echo "codegen-cache: could not execute the provided command" 1>&2
 		return 1
 	end
 
