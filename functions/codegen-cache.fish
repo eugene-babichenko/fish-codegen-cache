@@ -27,7 +27,7 @@ function codegen-cache --description "Cache the output of a command until the ex
 	end
 
 	if [ "$argv[1]" = "-e" ]
-		if ! set -q $argv[2]
+		if ! set -q argv[2]
 			echo "codegen-cache: you must provide a number of an entry to remove!" 1>&2
 			return 1
 		end
@@ -35,7 +35,9 @@ function codegen-cache --description "Cache the output of a command until the ex
 			echo "codegen-cache: entry not found!" 1>&2
 			return 1
 		end
-		set -e $__fish_codegen_cache_entries[$argv[2]]
+		set hash $__fish_codegen_cache_entries[$argv[2]]
+		set key __fish_codegen_cache_$hash
+		set -e $key
 		set -e __fish_codegen_cache_entries[$argv[2]]
 		return
 	end
@@ -48,7 +50,7 @@ function codegen-cache --description "Cache the output of a command until the ex
 	set exec_last_updated (stat -c %Y (which $argv[1]))
 	if test $status -ne 0
 		echo "codegen-cache: could not check the provided executable. Does it exist?" 1>&2
-		return  1
+		return 1
 	end
 
 	if set -q $key
