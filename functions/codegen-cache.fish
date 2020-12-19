@@ -48,14 +48,14 @@ function codegen-cache --description "Cache the output of a command until the ex
 	set exec_last_updated (stat -c %Y (which $argv[1]))
 	if test $status -ne 0
 		echo "codegen-cache: could not check the provided executable. Does it exist?" 1>&2
-		return 
+		return  1
 	end
 
 	if set -q $key
 		set command_data $$key
 		if test $exec_last_updated -le $command_data[2]
 			echo -e $command_data[3]
-			return 1
+			return
 		end
 	end
 
